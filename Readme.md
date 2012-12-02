@@ -43,3 +43,7 @@ None! :D
 - Add access control stuff (so people can hide sites).
 - Add ability to specify a configuration file as an environment variable.
 - Add ability to specify multiple providers and containers.
+
+## License
+
+Do what you want so long as I am credited, I ask that [Ryan Roemer](https://github.com/ryan-roemer) be credited also, since he wrote SunnyJS which does all the real work here. For me, a simple link to [my Github profile](https://github.com/bobobo1618) would suffice.
