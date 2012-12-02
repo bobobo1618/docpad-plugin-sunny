@@ -4,6 +4,10 @@ So this is another one of the only useful things I've published, yay! Actually d
 
 Basically, after your [Docpad](https://github.com/bevry/docpad) installation finishes generating the static documents, this plugin is meant to upload them all to Amazon S3 or Google Storage, whichever you select. It uses the apparently awesome library, [Sunny](https://github.com/ryan-roemer/node-sunny). Give Ryan some love.
 
+## Security warning
+
+At the moment, this plugin is written so that people can host generated static Docpad sites on cloud storage. As such, it has `public-read` set as the permission for all uploaded files. Keep this in mind if you're handling private stuff. I'll be adding privacy support in the future.
+
 ## Installation
 
 In your Docpad site directory:
@@ -33,3 +37,9 @@ Generated files will be added to the cloud provider whenever Docpad runs the gen
 ## Known bugs
 
 None! :D
+
+## Todo
+
+- Add access control stuff (so people can hide sites).
+- Add ability to specify a configuration file as an environment variable.
+- Add ability to specify multiple providers and containers.
