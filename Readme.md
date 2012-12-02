@@ -33,6 +33,10 @@ An example section from a docpad config:
 ```coffeescript
 [...]
     port: 8000
+    enabledPlugins:
+        sunny: true # Not necessary, just for reference.
+    site:
+        [...]
     plugins:
         sunny:
             configFromEnv: true
@@ -59,7 +63,12 @@ An example section from a docpad config:
                     acl: false #Uses the policy already set on S3.
 
                 }]
+[...]
 ```
+
+This will read two providers from the file (Google and Amazon). Google is set to private reads and Amazon to use whatever the default is on the bucket.
+
+It is also set to pick up configuration from variables with the prefixes `DOCPAD_SUNNY_`, `DOCPAD_`, and `MY_AWESOME_APP_SUNNY_` (so `DOCPAD_SUNNY_ACCOUNT` etc.)
 
 
 ### Environment
