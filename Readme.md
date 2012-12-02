@@ -34,6 +34,10 @@ Optional:
 
 Generated files will be added to the cloud provider whenever Docpad runs the generate hook.
 
+## Extra
+
+The plugin actually checks each Docpad file for a piece of metadata named `headers`. If you put this field in, you can set up a list of HTTP headers that will be sent with the corresponding request. You can use it to force a mime type, set cache control etc.
+
 ## Known bugs
 
 None! :D
