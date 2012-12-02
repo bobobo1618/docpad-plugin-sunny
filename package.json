@@ -1,0 +1,36 @@
+{
+  "name": "docpad-plugin-sunny",
+  "version": "0.0.1",
+  "description": "DocPad plugin which adds the ability to output to Amazon S3, Google Storage or and other service supported by SunnyJS.",
+  "homepage": "https://github.com/bobobo1618/docpad-plugin-sunny",
+  "keywords": [
+    "docpad",
+    "docpad-plugin",
+    "amazon",
+    "s3",
+    "sunny",
+    "google"
+  ],
+  "author": "Lucas <bobobo1618@gmail.com>",
+  "maintainers": [
+    "Lucas <bobobo1618@gmail.com>"
+  ],
+  "contributors": [
+    "Lucas <bobobo1618@gmail.com>"
+  ],
+  "bugs": {
+    "url": "https://github.com/bobobo1618/docpad-plugin-sunny/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bobobo1618/docpad-plugin-sunny.git"
+  },
+  "engines": {
+    "node": ">=0.4.0",
+    "docpad": "6.x"
+  },
+  "main": "./sunny.plugin.js",
+  "dependencies": {
+    "sunny": "0.0.5"
+  }
+}
