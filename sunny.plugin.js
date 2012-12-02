@@ -15,12 +15,12 @@
   doUpload = function(docpad, container, acl) {
     var cloudHeaders;
     if (acl != null) {
-      if (acl === !false) {
+      if (acl === false) {
+        cloudHeaders = {};
+      } else {
         cloudHeaders = {
           "acl": acl
         };
-      } else {
-        cloudHeaders = {};
       }
     } else {
       cloudHeaders = {
@@ -146,7 +146,6 @@
 
       docpadSunyPlugin.prototype.writeAfter = function(collection) {
         var cloudConfig, _i, _len, _ref, _results;
-        console.log(util.inspect(this.config, true, 5));
         if (this.config.configFromEnv) {
           handleEnv(this.docpad, this.config);
           console.log('Grabbing config from environment.');

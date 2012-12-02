@@ -8,10 +8,10 @@ util = require 'util'
 doUpload = (docpad, container, acl)->
     # Seems obvious enough. Sets files to public read in the cloud.
     if acl?
-        if acl is not false
-            cloudHeaders = {"acl": acl}
-        else
+        if acl is false
             cloudHeaders = {}
+        else
+            cloudHeaders = {"acl": acl}
     else
         cloudHeaders = {"acl": 'public-read'}
 
