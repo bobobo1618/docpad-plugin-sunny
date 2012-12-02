@@ -93,9 +93,16 @@ Optional:
 
 Generated files will be added to the cloud providers whenever Docpad runs the generate hook.
 
-## Extra
+## Custom headers
 
 The plugin actually checks each Docpad file for a piece of metadata named `headers`. If you put this field in, you can set up a list of HTTP headers that will be sent with the corresponding request. You can use it to force a mime type, set cache control etc.
+
+## Security
+
+Since you may wish to use this in an OSS project such as a blog or somesuch or any real application where you want to distribute source but keep all your keys private, there are two options available for configuration:
+
+- Environment variables (people can't really commit these through Git ;) )
+- A separate configuration file put in .gitignore.
 
 ## Known bugs
 
