@@ -106,7 +106,6 @@ module.exports = (BasePlugin) ->
             }]
 
         writeAfter: (collection)->
-            console.log util.inspect(@config, true, 5)
             if @config.configFromEnv
                 handleEnv @docpad, @config
                 console.log 'Grabbing config from environment.'
