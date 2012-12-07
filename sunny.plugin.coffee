@@ -35,7 +35,7 @@ doUpload = (docpad, container, acl)->
         #Open the stream and do the write.
         writeStream = container.putBlob path, {headers: headers, cloudHeaders: cloudHeaders}
         writeStream.on 'error', (err)->
-            console.log "Error uploading #{path}"
+            console.log "Error uploading #{path} to #{container.name}"
         writeStream.on 'end', (results, meta)->
             console.log "Uploaded #{path} to #{container.name}"
         writeStream.write data
