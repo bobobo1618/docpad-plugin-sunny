@@ -27,6 +27,7 @@ The options are:
         - `ssl`: `true` or `false`. Whether or not to use SSL to connect.
     - `container`: A string containing the name of the container to use.
     - `acl`: ACL to use for all requests. Set to `false` to tell sunny not to send an x-<provider>-acl header. Set to send `public-read` by default.
+    - `retryLimit`: Number of times to retry a request. Set to -1 for infinite. Set to 2 by default.
 
 An example section from a docpad config:
 
@@ -61,7 +62,7 @@ An example section from a docpad config:
                     }
                     container 'meow'
                     acl: false #Uses the policy already set on S3.
-
+                    retryLimit: -1 # Retry as long as is necessary until the upload works.
                 }]
 [...]
 ```
@@ -88,6 +89,7 @@ Optional:
 
 - `<PREFIX>SSL = true|false`: Whether or not to use SSL. False by default.
 - `<PREFIX>ACL`: The default permissions to use. Set to `public-read` by default. Check the Amazon and [Google](https://developers.google.com/storage/docs/accesscontrol#extension) documentation for details.
+- `<PREFIX>RETRY_LIMIT`: Number of times to retry uploads. -1 for infinite. 2 by default.
 
 ## Running
 
