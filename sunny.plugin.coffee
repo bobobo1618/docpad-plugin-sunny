@@ -53,9 +53,9 @@ doUpload = (docpad, container, acl, retryLimit)->
 
         # Merge the headers with those Docpad has.
         try
-            if file.get('headers')? and file.get('headers').length?
-                for header in file.get('headers')
-                    headers[header.name] = header.value
+            if file.get('headers')? #and file.get('headers').length?
+                for key, value of file.get('headers')
+                    headers[key] = value
         catch err
             console.log err
             console.dir file

@@ -16,7 +16,7 @@
     var doIt, writeStream;
     retries = retries != null ? retries : 0;
     retryLimit = retryLimit != null ? retryLimit : 2;
-    doIt = !retryLimit || (retryLimit && (retries <= retryLimit)) ? true : false;
+    doIt = !retryLimit || (retryLimit && (retries <= retryLimit)) || retryLimit === -1 ? true : false;
     if (doIt) {
       if (retries) {
         console.log("Retrying upload of " + path + " to " + container.name + ": Attempts: " + retries);
@@ -54,7 +54,7 @@
     return docpad.getFiles({
       write: true
     }).forEach(function(file) {
-      var data, header, headers, length, path, type, _i, _len, _ref;
+      var data, headers, key, length, path, type, value, _ref;
       path = file.attributes.relativeOutPath;
       data = file.get('contentRendered') || file.get('content') || file.getData() || file.getContent();
       length = data.length;
@@ -64,11 +64,11 @@
         "Content-Type": type
       };
       try {
-        if ((file.get('headers') != null) && (file.get('headers').length != null)) {
+        if (file.get('headers') != null) {
           _ref = file.get('headers');
-          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-            header = _ref[_i];
-            headers[header.name] = header.value;
+          for (key in _ref) {
+            value = _ref[key];
+            headers[key] = value;
           }
         }
       } catch (err) {
