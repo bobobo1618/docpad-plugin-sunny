@@ -115,6 +115,7 @@ module.exports = (BasePlugin) ->
 
         config:
             defaultACL: 'public-read'
+            onlyIfProduction: true
             configFromEnv: false
             envPrefixes: []
             cloudConfigs: [{
@@ -130,11 +131,12 @@ module.exports = (BasePlugin) ->
             }]
 
         writeAfter: (collection)->
-            if @config.configFromEnv
-                handleEnv @docpad, @config
-                console.log 'Grabbing config from environment.'
-
-            if @config.cloudConfigs.length > 0
-                for cloudConfig in @config.cloudConfigs
-                    handle @docpad, cloudConfig.sunny, cloudConfig.container, cloudConfig.acl, cloudConfig.retryLimit
-
+            if (not @config.onlyIfProduction) or (process.env.NODE_ENV is "production")
+              if @config.configFromEnv
+                  console.log "Sunny plugin getting config from environment..."
+                  handleEnv @docpad, @config
+              
+              if @config.cloudConfigs.length > 0
+                  console.log "Found {@config.cloudConfigs.length} configurations in config file."
+                  for cloudConfig in @config.cloudConfigs
+                      handle @docpad, cloudConfig.sunny, cloudConfig.container, cloudConfig.acl, cloudConfig.retryLimit
