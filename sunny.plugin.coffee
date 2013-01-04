@@ -137,6 +137,6 @@ module.exports = (BasePlugin) ->
                   handleEnv @docpad, @config
               
               if @config.cloudConfigs.length > 0
-                  console.log "Found {@config.cloudConfigs.length} configurations in config file."
+                  console.log "Found #{@config.cloudConfigs.length} configurations in config file."
                   for cloudConfig in @config.cloudConfigs
                       handle @docpad, cloudConfig.sunny, cloudConfig.container, cloudConfig.acl, cloudConfig.retryLimit

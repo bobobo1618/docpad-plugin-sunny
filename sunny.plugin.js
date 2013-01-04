@@ -176,7 +176,7 @@
             handleEnv(this.docpad, this.config);
           }
           if (this.config.cloudConfigs.length > 0) {
-            console.log("Found {@config.cloudConfigs.length} configurations in config file.");
+            console.log("Found " + this.config.cloudConfigs.length + " configurations in config file.");
             _ref = this.config.cloudConfigs;
             _results = [];
             for (_i = 0, _len = _ref.length; _i < _len; _i++) {
