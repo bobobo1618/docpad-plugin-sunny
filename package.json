@@ -27,11 +27,11 @@
   },
   "engines": {
     "node": ">=0.4.0",
-    "docpad": "6.x",
-    "mime": "1.2.x"
+    "docpad": "6.x"
   },
   "main": "./sunny.plugin.js",
   "dependencies": {
-    "sunny": "0.0.5"
+    "sunny": "0.0.5",
+    "mime": "1.2.x"
   }
 }
