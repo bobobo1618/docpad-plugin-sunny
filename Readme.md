@@ -94,6 +94,8 @@ Optional:
 
 ## Running
 
+By default, the plugin won't run unless either `NODE_ENV=production` or `onlyIfProduction` is false in the configuration. So either set `onlyIfProduction` to false, run `export NODE_ENV=production` before running docpad or run `NODE_ENV=production docpad generate`.
+
 Generated files will be added to the cloud providers whenever Docpad runs the generate hook.
 
 ## Custom headers
