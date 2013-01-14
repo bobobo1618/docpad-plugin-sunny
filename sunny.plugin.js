@@ -112,7 +112,8 @@
       provider: process.env["" + prefix + "PROVIDER"],
       account: process.env["" + prefix + "ACCOUNT"],
       secretKey: process.env["" + prefix + "SECRETKEY"],
-      ssl: process.env["" + prefix + "SSL"]
+      ssl: process.env["" + prefix + "SSL"],
+      authUrl: process.env["" + prefix + "AUTHURL"]
     };
     sunnyContainer = process.env["" + prefix + "CONTAINER"];
     sunnyACL = process.env["" + prefix + "ACL"];
@@ -159,7 +160,8 @@
               provider: void 0,
               account: void 0,
               secretKey: void 0,
-              ssl: void 0
+              ssl: void 0,
+              authUrl: void 0
             },
             container: void 0,
             acl: void 0,

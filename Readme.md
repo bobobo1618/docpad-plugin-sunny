@@ -25,6 +25,7 @@ The options are:
         - `account`: A string. The account to use to connect. For Amazon this is the access key, for Google, you get this from the Interoperable Access page under Google Storage in [the console](https://code.google.com/apis/console/)
         - `secretKey`: The key to use. For Amazon, this is the AWS secret key, for Google, this is the Secret found on the page mentioned above.
         - `ssl`: `true` or `false`. Whether or not to use SSL to connect.
+        - `authUrl`: A string. The URL of the service to connect to. E.g. `s3.amazonaws.com`
     - `container`: A string containing the name of the container to use.
     - `acl`: ACL to use for all requests. Set to `false` to tell sunny not to send an x-<provider>-acl header. Set to send `public-read` by default.
     - `retryLimit`: Number of times to retry a request. Set to -1 for infinite. Set to 2 by default.
@@ -91,6 +92,7 @@ Optional:
 - `<PREFIX>SSL = true|false`: Whether or not to use SSL. False by default.
 - `<PREFIX>ACL`: The default permissions to use. Set to `public-read` by default. Check the Amazon and [Google](https://developers.google.com/storage/docs/accesscontrol#extension) documentation for details.
 - `<PREFIX>RETRY_LIMIT`: Number of times to retry uploads. -1 for infinite. 2 by default.
+- `<PREFIX>AUTHURL`: The URL to use. E.g. `s3.amazonaws.com`
 
 ## Running
 

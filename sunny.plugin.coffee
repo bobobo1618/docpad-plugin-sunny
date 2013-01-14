@@ -92,6 +92,7 @@ handleEnvPrefix = (docpad, prefix)->
         account: process.env["#{prefix}ACCOUNT"],
         secretKey: process.env["#{prefix}SECRETKEY"],
         ssl: process.env["#{prefix}SSL"]
+        authUrl: process.env["#{prefix}AUTHURL"]
     }
     sunnyContainer = process.env["#{prefix}CONTAINER"]
     sunnyACL = process.env["#{prefix}ACL"]
@@ -124,6 +125,7 @@ module.exports = (BasePlugin) ->
                     account: undefined
                     secretKey: undefined
                     ssl: undefined
+                    authUrl: undefined
                 },
                 container: undefined,
                 acl: undefined
@@ -135,7 +137,7 @@ module.exports = (BasePlugin) ->
               if @config.configFromEnv
                   console.log "Sunny plugin getting config from environment..."
                   handleEnv @docpad, @config
-              
+
               if @config.cloudConfigs.length > 0
                   console.log "Found #{@config.cloudConfigs.length} configurations in config file."
                   for cloudConfig in @config.cloudConfigs
