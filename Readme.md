@@ -115,6 +115,16 @@ Since you may wish to use this in an OSS project such as a blog or somesuch or a
 
 None! :D
 
+## Known solutions to things that aren't quite bugs ;)
+
+Gettings errors like this:
+
+`Received error trying to connect to provider:
+ Error: <?xml version="1.0" encoding="UTF-8"?>
+<Error><Code>TemporaryRedirect</Code><Message>Please re-send this request to the specified temporary endpoint. Continue to use the original request endpoint for future requests.</Message><RequestId>[redacted]</RequestId><Bucket>[redacted]</Bucket><HostId>[redacted]</HostId><Endpoint>[redacted].s3-ap-southeast-2.amazonaws.com</Endpoint></Error>`
+
+Can be fixed by setting the `authUrl` for the config that's having the problem to the endpoint given in the error. In this case, you could add `authUrl: '[redacted].s3-ap-southeast-2.amazonaws.com'` to your configuration.
+
 ## Todo
 
 I did it all :D
