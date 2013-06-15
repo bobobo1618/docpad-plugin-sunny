@@ -111,7 +111,7 @@ handleEnv = (docpad, config)->
         handleEnvPrefix docpad, "DOCPAD_SUNNY_"
 
 module.exports = (BasePlugin) ->
-    class docpadSunyPlugin extends BasePlugin
+    class docpadSunnyPlugin extends BasePlugin
         name: "sunny"
 
         config:
@@ -119,18 +119,20 @@ module.exports = (BasePlugin) ->
             onlyIfProduction: true
             configFromEnv: false
             envPrefixes: []
-            cloudConfigs: [{
-                sunny:{
-                    provider: undefined
-                    account: undefined
-                    secretKey: undefined
-                    ssl: undefined
-                    authUrl: undefined
-                },
-                container: undefined,
-                acl: undefined
-                retryLimit: undefined
-            }]
+            cloudConfigs: [
+                # {
+                #    sunny:{
+                #        provider: undefined
+                #        account: undefined
+                #        secretKey: undefined
+                #        ssl: undefined
+                #        authUrl: undefined
+                #    },
+                #    container: undefined,
+                #    acl: undefined
+                #    retryLimit: undefined
+                # }
+            ]
 
         writeAfter: (collection)->
             if (not @config.onlyIfProduction) or (process.env.NODE_ENV is "production")
