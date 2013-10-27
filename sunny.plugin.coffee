@@ -134,7 +134,8 @@ module.exports = (BasePlugin) ->
                 # }
             ]
 
-        writeAfter: (collection)->
+        writeAfter: (opts, next)->
+            next?()
             if (not @config.onlyIfProduction) or (process.env.NODE_ENV is "production")
               if @config.configFromEnv
                   console.log "Sunny plugin getting config from environment..."
