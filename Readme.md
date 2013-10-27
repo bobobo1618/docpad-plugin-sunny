@@ -126,10 +126,12 @@ Gettings errors like this:
 
 Can be fixed by setting the `authUrl` for the config that's having the problem to the endpoint given in the error. In this case, you could add `authUrl: '[redacted].s3-ap-southeast-2.amazonaws.com'` to your configuration.
 
-## Todo
+## Contributors
 
-I did it all :D
+- Me
+- [nfriedly](https://github.com/nfriedly)
+- [Ryan Roemer](https://github.com/ryan-roemer) (wrote Sunny)
 
 ## License
 
-Do what you want so long as I am credited, I ask that [Ryan Roemer](https://github.com/ryan-roemer) be credited also, since he wrote SunnyJS which does all the real work here. For me, a simple link to [my Github profile](https://github.com/bobobo1618) would suffice.
+Do what you want so long as this repo be credited or referenced somehow, I ask that [Ryan Roemer](https://github.com/ryan-roemer) be credited also, since he wrote SunnyJS which does all the real work here.
