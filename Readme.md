@@ -4,6 +4,8 @@ So this is another one of the only useful things I've published, yay! Actually d
 
 Basically, after your [Docpad](https://github.com/bevry/docpad) installation finishes generating the static documents, this plugin is meant to upload them all to Amazon S3 or Google Storage, whichever you select. It uses the apparently awesome library, [Sunny](https://github.com/ryan-roemer/node-sunny). Give Ryan some love.
 
+As of 2.0.13, the plugin no longer automatically pushes. Instead, there is a command line option to docpad, `deploy-sunny` which deploys to Sunny supported providers for you.
+
 ## Installation
 
 In your Docpad site directory:

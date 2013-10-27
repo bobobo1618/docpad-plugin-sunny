@@ -134,14 +134,43 @@ module.exports = (BasePlugin) ->
                 # }
             ]
 
-        writeAfter: (opts, next)->
-            next?()
-            if (not @config.onlyIfProduction) or (process.env.NODE_ENV is "production")
-              if @config.configFromEnv
-                  console.log "Sunny plugin getting config from environment..."
-                  handleEnv @docpad, @config
+        deployWithSunny: (next)=>
+            docpad = @docpad
+            config = @getConfig()
+            if config.cloudConfigs.length > 0 or config.configFromEnv
+                docpad.log 'info', "Found #{config.cloudConfigs.length} configurations in file."
+                @docpad.generate (err)->
+                    return next(err) if err
 
-              if @config.cloudConfigs.length > 0
-                  console.log "Found #{@config.cloudConfigs.length} configurations in config file."
-                  for cloudConfig in @config.cloudConfigs
-                      handle @docpad, cloudConfig.sunny, cloudConfig.container, cloudConfig.acl, cloudConfig.retryLimit
+                    if config.configFromEnv
+                        docpad.log 'info', "Grabbing configs from environment."
+                        handleEnv @docpad, config
+
+                    for cloudConfig in config.cloudConfigs
+                        handle @docpad, cloudConfig.sunny, cloudConfig.container, cloudConfig.acl, cloudConfig.retryLimit
+
+                    return next()
+
+        consoleSetup: (opts)=>
+            docpad = @docpad
+            config = @getConfig()
+            {consoleInterface, commander} = opts
+
+            commander
+                .command('deploy-sunny')
+                .description("Deploys your website to any provider allowed by Sunny.")
+                .action consoleInterface.wrapAction(@deployWithSunny)
+
+            @
+
+        #writeAfter: (opts, next)->
+        #    next?()
+        #    if (not @config.onlyIfProduction) or (process.env.NODE_ENV is "production")
+        #      if @config.configFromEnv
+        #          console.log "Sunny plugin getting config from environment..."
+        #          handleEnv @docpad, @config
+        #
+        #      if @config.cloudConfigs.length > 0
+        #          console.log "Found #{@config.cloudConfigs.length} configurations in config file."
+        #          for cloudConfig in @config.cloudConfigs
+        #              handle @docpad, cloudConfig.sunny, cloudConfig.container, cloudConfig.acl, cloudConfig.retryLimit
