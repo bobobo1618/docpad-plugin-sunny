@@ -3,8 +3,9 @@ sunny = require 'sunny'
 mime = require 'mime'
 http = require 'http'
 util = require 'util'
+{TaskGroup} = require('taskgroup')
 
-uploadData = (container, path, headers, data, retryLimit, retries)->
+uploadData = (container, path, headers, data, retryLimit, retries, next)->
     # Test for whether to retry the upload.
     retries = if retries? then retries else 0
     retryLimit = if retryLimit? then retryLimit else 2
@@ -19,16 +20,17 @@ uploadData = (container, path, headers, data, retryLimit, retries)->
         writeStream.on 'error', (err)->
             console.log "Error uploading #{path} to #{container.name}"
             # Recall this function with the retry counter incremented. Yay recursion!
-            uploadData container, path, headers, data, retryLimit, retries+1
+            uploadData container, path, headers, data, retryLimit, retries+1, next
         writeStream.on 'end', (results, meta)->
             console.log "Uploaded #{path} to #{container.name}"
+            next()
         writeStream.write data
         writeStream.end()
     else
-        console.log "Upload for #{path} to #{container.name} has failed #{retries} times. Giving up."
+        next("Upload for #{path} to #{container.name} has failed #{retries} times. Giving up.")
 
 # Does the upload after Sunny has been set up and such.
-doUpload = (docpad, container, acl, retryLimit)->
+doUpload = (docpad, container, acl, retryLimit, next)->
     # Seems obvious enough. Sets files to public read in the cloud.
     if acl?
         if acl is false
@@ -37,12 +39,17 @@ doUpload = (docpad, container, acl, retryLimit)->
             cloudHeaders = {"acl": acl}
     else
         cloudHeaders = {"acl": 'public-read'}
+        
+    tasks = new TaskGroup().once 'complete', (err) ->
+        return next(err)
 
     docpad.getFiles(write: true).forEach (file)->
         path = file.attributes.relativeOutPath
 
         # Gets the correct data from Docpad.
-        data = file.get('contentRendered') || file.get('content') || file.getData() || file.getContent()
+        data = file.get('contentRendered') || file.get('content') || (file.getData && file.getData()) || file.getContent() || ""
+        if !data
+            return next("No data for file #{path}")
         length = data.length
         type = mime.lookup path #file.get('contentType')
 
@@ -59,11 +66,15 @@ doUpload = (docpad, container, acl, retryLimit)->
         catch err
             console.log err
             console.dir file
-        uploadData container, path, {headers: headers, cloudHeaders: cloudHeaders}, data, retryLimit
+        
+        tasks.addTask (complete) ->
+            uploadData container, path, {headers: headers, cloudHeaders: cloudHeaders}, data, retryLimit, 0, complete
+        
+    tasks.run()
 
 
 
-handle = (docpad, sunnyConfig, sunnyContainer, defaultACL, retryLimit)->
+handle = (docpad, sunnyConfig, sunnyContainer, defaultACL, retryLimit, next)->
     # Test the configuration and try it.
     if sunnyConfig.provider? and sunnyConfig.account? and sunnyConfig.secretKey? and sunnyContainer?
         # Get a connection to the provider.
@@ -75,18 +86,21 @@ handle = (docpad, sunnyConfig, sunnyContainer, defaultACL, retryLimit)->
             console.log "Received error trying to connect to provider: \n #{err}"
 
         containerReq.on 'end', (results, meta)->
-            container = results.container
-            console.log "Got container #{container.name}."
-            # Do the upload.
-            doUpload docpad, container, defaultACL, retryLimit
+            if results # not sure exactly how, but the 'end' can get called more than once with null params on the second call
+                container = results.container
+                console.log "Got container #{container.name}."
+                # Do the upload.
+                doUpload docpad, container, defaultACL, retryLimit, next
 
         containerReq.end()
     else
-        console.log 'One of the config variables is missing. Printing config:'
-        console.dir sunnyConfig
-        console.log "Container is #{sunnyContainer}"
+        next("""
+            One of the config variables is missing. Printing config:
+            #{util.inspect(sunnyConfig)}
+            Container is #{sunnyContainer}
+            """)
 
-handleEnvPrefix = (docpad, prefix)->
+handleEnvPrefix = (docpad, prefix, next)->
     sunnyConfig = {
         provider: process.env["#{prefix}PROVIDER"], # Cloud provider: (aws|google)
         account: process.env["#{prefix}ACCOUNT"],
@@ -101,14 +115,14 @@ handleEnvPrefix = (docpad, prefix)->
     # Parse the environment variable for ssl.
     sunnyConfig.ssl = ((typeof(sunnyConfig.ssl) is 'string') and (sunnyConfig.ssl.toLowerCase() is 'true'))
 
-    handle docpad, sunnyConfig, sunnyContainer, sunnyACL, sunnyRetryLimit
+    handle docpad, sunnyConfig, sunnyContainer, sunnyACL, sunnyRetryLimit, next
 
-handleEnv = (docpad, config)->
+handleEnv = (docpad, config, next)->
     if config.envPrefixes.length > 0
         for prefix in config.envPrefixes
-            handleEnvPrefix docpad, prefix
+            handleEnvPrefix docpad, prefix, next
     else
-        handleEnvPrefix docpad, "DOCPAD_SUNNY_"
+        handleEnvPrefix docpad, "DOCPAD_SUNNY_", next
 
 module.exports = (BasePlugin) ->
     class docpadSunnyPlugin extends BasePlugin
@@ -137,19 +151,28 @@ module.exports = (BasePlugin) ->
         deployWithSunny: (next)=>
             docpad = @docpad
             config = @getConfig()
+            
             if config.cloudConfigs.length > 0 or config.configFromEnv
                 docpad.log 'info', "Found #{config.cloudConfigs.length} configurations in file."
                 @docpad.generate (err)->
                     return next(err) if err
 
+                    tasks = new TaskGroup().once 'complete', (err) ->
+                        return next(err)
+
                     if config.configFromEnv
                         docpad.log 'info', "Grabbing configs from environment."
-                        handleEnv @docpad, config
+                        tasks.addTask (complete) ->
+                            handleEnv docpad, config, complete
 
                     for cloudConfig in config.cloudConfigs
-                        handle @docpad, cloudConfig.sunny, cloudConfig.container, cloudConfig.acl, cloudConfig.retryLimit
-
-                    return next()
+                        tasks.addTask (complete) ->
+                            handle docpad, cloudConfig.sunny, cloudConfig.container, cloudConfig.acl, cloudConfig.retryLimit, complete
+                    tasks.run()
+            else
+                errMsg = 'No configs found'
+                docpad.log 'warn', errMsg
+                next(errMsg)
 
         consoleSetup: (opts)=>
             docpad = @docpad
