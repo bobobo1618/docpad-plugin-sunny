@@ -31,7 +31,6 @@ The options are:
     - `container`: A string containing the name of the container to use.
     - `acl`: ACL to use for all requests. Set to `false` to tell sunny not to send an x-<provider>-acl header. Set to send `public-read` by default.
     - `retryLimit`: Number of times to retry a request. Set to -1 for infinite. Set to 2 by default.
-- `onlyIfProduction`: Set to true if you only want to run the plugin in a production (`NODE_ENV=production`) environment. Defaults to true.
 
 An example section from a docpad config:
 
