@@ -15,7 +15,7 @@ In your Docpad site directory:
 
 ## Configuration
 
-Configuration is mainly set in your Docpad configuration file in the plugins section (look [here](http://bevry.me/docpad/config) for more explanation). The relevant shortname is `sunny`.
+Configuration is mainly set in your Docpad configuration file in the plugins section (look [here](http://docpad.org/docs/config) for more explanation). The relevant shortname is `sunny`.
 
 The options are:
 
