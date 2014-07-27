@@ -27,7 +27,7 @@ The options are:
         - `account`: A string. The account to use to connect. For Amazon this is the access key, for Google, you get this from the Interoperable Access page under Google Storage in [the console](https://code.google.com/apis/console/)
         - `secretKey`: The key to use. For Amazon, this is the AWS secret key, for Google, this is the Secret found on the page mentioned above.
         - `ssl`: `true` or `false`. Whether or not to use SSL to connect.
-        - `authUrl`: A string. The URL of the service to connect to. E.g. `s3.amazonaws.com`
+        - `authUrl`: A string. The URL of the service to connect to. E.g. `s3-us-west-1.amazonaws.com`
     - `container`: A string containing the name of the container to use.
     - `acl`: ACL to use for all requests. Set to `false` to tell sunny not to send an x-<provider>-acl header. Set to send `public-read` by default.
     - `retryLimit`: Number of times to retry a request. Set to -1 for infinite. Set to 2 by default.
@@ -60,6 +60,7 @@ An example section from a docpad config:
                     sunny: {
                         provider: 'aws'
                         account: 'ADSDG876SDG87S'
+                        authUrl: 's3-some-region.amazonaws.com'
                         secretKey: 'A(*G&(S97*S^DG('
                         ssl: true
                     }
