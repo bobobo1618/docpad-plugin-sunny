@@ -63,7 +63,7 @@ An example section from a docpad config:
                         secretKey: 'A(*G&(S97*S^DG('
                         ssl: true
                     }
-                    container 'meow'
+                    container: 'meow'
                     acl: false #Uses the policy already set on S3.
                     retryLimit: -1 # Retry as long as is necessary until the upload works.
                 }]
