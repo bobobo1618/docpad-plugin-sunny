@@ -2,7 +2,7 @@
 
 So this is another one of the only useful things I've published, yay! Actually distributing my projects is new to me.
 
-Basically, after your [Docpad](https://github.com/bevry/docpad) installation finishes generating the static documents, this plugin is meant to upload them all to Amazon S3 or Google Storage, whichever you select. It uses the apparently awesome library, [Sunny](https://github.com/ryan-roemer/node-sunny). Give Ryan some love.
+Basically, after your [Docpad](https://github.com/docpad/docpad) installation finishes generating the static documents, this plugin is meant to upload them all to Amazon S3 or Google Storage, whichever you select. It uses the apparently awesome library, [Sunny](https://github.com/ryan-roemer/node-sunny). Give Ryan some love.
 
 As of 2.0.13, the plugin no longer automatically pushes. Instead, there is a command line option to docpad, `deploy-sunny` which deploys to Sunny supported providers for you.
 
@@ -15,7 +15,7 @@ In your Docpad site directory:
 
 ## Configuration
 
-Configuration is mainly set in your Docpad configuration file in the plugins section (look [here](http://docpad.org/docs/config) for more explanation). The relevant shortname is `sunny`.
+Configuration is mainly set in your Docpad configuration file in the plugins section (look [here](http://docpad.org/docs/config/) for more explanation). The relevant shortname is `sunny`.
 
 The options are:
 
@@ -24,7 +24,7 @@ The options are:
 - `cloudConfigs`: An array of objects with the following properties:
     - `sunny`: Another object holding the variables passed to `sunny.Configuration.fromObj`. It has the following properties:
         - `provider`: A string. Can be any provider supported by sunny. At the moment, must be either `aws` or `google`.
-        - `account`: A string. The account to use to connect. For Amazon this is the access key, for Google, you get this from the Interoperable Access page under Google Storage in [the console](https://code.google.com/apis/console/)
+        - `account`: A string. The account to use to connect. For Amazon this is the access key, for Google, you get this from the Interoperable Access page under Google Storage in [the console](https://console.developers.google.com/dcredirect/)
         - `secretKey`: The key to use. For Amazon, this is the AWS secret key, for Google, this is the Secret found on the page mentioned above.
         - `ssl`: `true` or `false`. Whether or not to use SSL to connect.
         - `authUrl`: A string. The URL of the service to connect to. E.g. `s3.amazonaws.com`
@@ -91,7 +91,7 @@ Mandatory for it to work:
 Optional:
 
 - `<PREFIX>SSL = true|false`: Whether or not to use SSL. False by default.
-- `<PREFIX>ACL`: The default permissions to use. Set to `public-read` by default. Check the Amazon and [Google](https://developers.google.com/storage/docs/accesscontrol#extension) documentation for details.
+- `<PREFIX>ACL`: The default permissions to use. Set to `public-read` by default. Check the Amazon and [Google](https://cloud.google.com/storage/docs/access-control#extension) documentation for details.
 - `<PREFIX>RETRY_LIMIT`: Number of times to retry uploads. -1 for infinite. 2 by default.
 - `<PREFIX>AUTHURL`: The URL to use. E.g. `s3.amazonaws.com`
 
